@@ -29,7 +29,32 @@ func (b *Board) changePlayer() {
 }
 
 func (b *Board) winner() bool {
-	if b.board[0] == X && b.board[1] == X && b.board[2] == X {
+	//top
+	if b.board[0] != uint8(0) && b.board[0] == b.board[1] && b.board[1] == b.board[2] {
+		return true
+	}
+	//bottom
+	if b.board[6] != uint8(0) && b.board[6] == b.board[7] && b.board[7] == b.board[8] {
+		return true
+	}
+	//center
+	if b.board[3] != uint8(0) && b.board[3] == b.board[4] && b.board[4] == b.board[5] {
+		return true
+	}
+	//left
+	if b.board[0] != uint8(0) && b.board[0] == b.board[3] && b.board[3] == b.board[6] {
+		return true
+	}
+	//middle
+	if b.board[1] != uint8(0) && b.board[1] == b.board[4] && b.board[4] == b.board[7] {
+		return true
+	}
+	//right
+	if b.board[2] != uint8(0) && b.board[2] == b.board[5] && b.board[5] == b.board[8] {
+		return true
+	}
+	//diagonals
+	if b.board[4] != uint8(0) && ((b.board[0] == b.board[4] && b.board[4] == b.board[8]) || (b.board[2] == b.board[4] && b.board[4] == b.board[6])) {
 		return true
 	}
 	return false

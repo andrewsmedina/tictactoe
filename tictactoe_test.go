@@ -58,8 +58,40 @@ func (s *S) TestWinner(c *C) {
 	board := NewBoard()
 	c.Assert(board.winner(), Equals, false)
 
-	board.board[0] = X
-	board.board[1] = X
-	board.board[2] = X
+	//top
+	board.board = [9]uint8{X, X, X, 0, 0, 0, 0, 0, 0}
+	c.Assert(board.winner(), Equals, true)
+
+	board.board = [9]uint8{O, O, O, 0, 0, 0, 0, 0, 0}
+	c.Assert(board.winner(), Equals, true)
+
+	//center
+	board.board = [9]uint8{O, O, X, X, X, X, 0, 0, 0}
+	c.Assert(board.winner(), Equals, true)
+
+	board.board = [9]uint8{O, O, X, X, 0, X, 0, 0, 0}
+	c.Assert(board.winner(), Equals, false)
+
+	//bottom
+	board.board = [9]uint8{O, O, X, 0, 0, 0, X, X, X}
+	c.Assert(board.winner(), Equals, true)
+
+	//left
+	board.board = [9]uint8{O, 0, 0, O, 0, 0, O, 0, 0}
+	c.Assert(board.winner(), Equals, true)
+
+	//middle
+	board.board = [9]uint8{0, X, 0, 0, X, 0, 0, X, 0}
+	c.Assert(board.winner(), Equals, true)
+
+	//right
+	board.board = [9]uint8{0, 0, X, 0, 0, X, 0, 0, X}
+	c.Assert(board.winner(), Equals, true)
+
+	//diagonal
+	board.board = [9]uint8{X, 0, 0, 0, X, 0, 0, 0, X}
+	c.Assert(board.winner(), Equals, true)
+
+	board.board = [9]uint8{0, 0, X, 0, X, 0, X, 0, 0}
 	c.Assert(board.winner(), Equals, true)
 }
