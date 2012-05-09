@@ -24,3 +24,13 @@ func (s *S) TestX(c *C) {
 func (s *S) TestO(c *C) {
 	c.Assert(O, Equals, uint8(2))
 }
+
+func (s *S) TestBoardMove(c *C) {
+	board := NewBoard()
+	player := X
+	position := uint8(0)
+	board.Move(player, position)
+	expected := [9]uint8{}
+	expected[uint8(0)] = X
+	c.Assert(board.board, DeepEquals, expected)
+}
