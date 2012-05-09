@@ -29,8 +29,20 @@ func (s *S) TestBoardMove(c *C) {
 	board := NewBoard()
 	player := X
 	position := uint8(0)
-	board.Move(player, position)
+	err := board.Move(player, position)
+	c.Assert(err, IsNil)
 	expected := [9]uint8{}
 	expected[uint8(0)] = X
 	c.Assert(board.board, DeepEquals, expected)
+}
+
+func (s *S) TestShouldNotBePossibleMoveToOccupiedPosition(c *C) {
+	board := NewBoard()
+	player := X
+	position := uint8(0)
+	err := board.Move(player, position)
+	c.Assert(err, IsNil)
+
+	err = board.Move(player, position)
+	c.Assert(err, ErrorMatches, "This position is already occupied.")
 }
