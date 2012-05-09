@@ -27,22 +27,39 @@ func (s *S) TestO(c *C) {
 
 func (s *S) TestBoardMove(c *C) {
 	board := NewBoard()
-	player := X
 	position := uint8(0)
-	err := board.Move(player, position)
+	err := board.Move(position)
 	c.Assert(err, IsNil)
+
 	expected := [9]uint8{}
 	expected[uint8(0)] = X
-	c.Assert(board.board, DeepEquals, expected)
+	err = board.Move(position)
+	c.Assert(err, ErrorMatches, "This position is already occupied.")
 }
 
-func (s *S) TestShouldNotBePossibleMoveToOccupiedPosition(c *C) {
+func (s *S) TestBoardPlayer(c *C) {
 	board := NewBoard()
-	player := X
-	position := uint8(0)
-	err := board.Move(player, position)
-	c.Assert(err, IsNil)
+	c.Assert(board.player, Equals, X)
 
-	err = board.Move(player, position)
-	c.Assert(err, ErrorMatches, "This position is already occupied.")
+	position := uint8(0)
+	board.Move(position)
+	c.Assert(board.player, Equals, O)
+}
+
+func (s *S) TestChangePlayer(c *C) {
+	board := NewBoard()
+	c.Assert(board.player, Equals, X)
+
+	board.changePlayer()
+	c.Assert(board.player, Equals, O)
+}
+
+func (s *S) TestWinner(c *C) {
+	board := NewBoard()
+	c.Assert(board.winner(), Equals, false)
+
+	board.board[0] = X
+	board.board[1] = X
+	board.board[2] = X
+	c.Assert(board.winner(), Equals, true)
 }
